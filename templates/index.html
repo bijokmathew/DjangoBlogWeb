@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- blog list -->
+        <div class="col-12 mt-3">
+            <div class="row">
+                {% for post in posts_list %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="image-container">
+                                {% if 'placeholder' in post.featured_image.url %}
+                                <img src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg"
+                                    class="card-img-top" alt="tite-image">
+                                {% else %}
+                                <img src="{{post.featured_image.url}}" class="card-img-top" alt="">
+                                {% endif %}
+                                <div class="image-flash">
+                                    <p class="author">Author: {{post.Author}}</p>
+                                </div>
+                            </div>
+                            <a href="{% url 'post_detail' post.slug %}" class="post-link">
+                                <h2 class="card-title">{{post.title}}</h2>
+                                <p class="card-text">{{post.excerpt}}</p>
+                            </a>
+                            <hr>
+                            <p class="card-textt text-muted h6">{{post.created_on}} <i class="far fa-heart"></i>
+                                {{post.number_of_likes}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% if is_paginated %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+</div>
+{% endblock %}
