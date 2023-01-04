@@ -31,7 +31,7 @@ class Posts(models.Model):
 
 class Comment(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=False)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
@@ -42,4 +42,6 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"Comments {self.body} by {self.name}"
+
+        
 
